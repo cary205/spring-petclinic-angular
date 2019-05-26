@@ -27,7 +27,14 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
 import {HttpErrorHandler, HandleError} from '../error.service';
+import {HttpHeaders} from '@angular/common/http';
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': 'Basic ' + btoa('admin:admin')
+  })
+};
 
 @Injectable()
 export class OwnerService {
@@ -41,7 +48,7 @@ export class OwnerService {
   }
 
   getOwners(): Observable<Owner[]> {
-    return this.http.get<Owner[]>(this.entity_url)
+    return this.http.get<Owner[]>(this.entity_url, httpOptions)
       .pipe(
         catchError(this.handlerError('getOwners', []))
       );
