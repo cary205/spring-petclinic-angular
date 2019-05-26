@@ -20,7 +20,19 @@ module.exports = function (config) {
       fixWebpackSourcePaths: true
     },
     
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'kjhtml', 
+      // Reference: https://github.com/karma-runner/karma-coverage
+      // Output code coverage files
+      'coverage'
+    ],
+    coverageReporter: {
+      reporters: [
+        // generates ./coverage/lcov.info
+        {type:'lcovonly', subdir: '.'},
+        // generates ./coverage/coverage-final.json
+        {type:'json', subdir: '.'},
+      ]
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
