@@ -23,7 +23,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Visit} from '../visit';
 import {VisitService} from '../visit.service';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PetService} from '../../pets/pet.service';
 import {Pet} from '../../pets/pet';
 import {PetType} from '../../pettypes/pettype';
@@ -39,53 +39,53 @@ import * as moment from 'moment';
 export class VisitAddComponent implements OnInit {
 
   visit: Visit;
-  current_pet: Pet;
-  current_owner: Owner;
-  current_pet_type: PetType;
-  added_success: boolean = false;
+  currentPet: Pet;
+  currentOwner: Owner;
+  currentPetType: PetType;
+  addedSuccess = false;
   errorMessage: string;
 
   constructor(private visitService: VisitService, private petService: PetService, private router: Router, private route: ActivatedRoute) {
-    this.visit = <Visit>{};
-    this.current_pet = <Pet>{};
-    this.current_owner = <Owner>{};
-    this.current_pet_type = <PetType>{};
+    this.visit = {} as Visit;
+    this.currentPet = {} as Pet;
+    this.currentOwner = {} as Owner;
+    this.currentPetType = {} as PetType;
 
   }
 
   ngOnInit() {
     console.log(this.route.parent);
-    const petId = this.route.snapshot.params['id'];
+    const petId = this.route.snapshot.params.id;
     this.petService.getPetById(petId).subscribe(
       response => {
-        this.current_pet = response;
-        this.visit.pet = this.current_pet;
-        this.current_pet_type = this.current_pet.type;
-        this.current_owner = this.current_pet.owner;
+        this.currentPet = response;
+        this.visit.pet = this.currentPet;
+        this.currentPetType = this.currentPet.type;
+        this.currentOwner = this.currentPet.owner;
       },
-      error => this.errorMessage = <any> error);
+      error => this.errorMessage = error as any);
   }
 
   onSubmit(visit: Visit) {
     visit.id = null;
-    var that = this;
+    const that = this;
 
     // format output from datepicker to short string yyyy/mm/dd format
     visit.date = moment(visit.date).format('YYYY/MM/DD');
 
 
     this.visitService.addVisit(visit).subscribe(
-      new_visit => {
-        this.visit = new_visit;
-        this.added_success = true;
+      newVisit => {
+        this.visit = newVisit;
+        this.addedSuccess = true;
         that.gotoOwnerDetail();
       },
-      error => this.errorMessage = <any>error
+      error => this.errorMessage = error as any
     );
   }
 
   gotoOwnerDetail() {
-    this.router.navigate(['/owners', this.current_owner.id]);
+    this.router.navigate(['/owners', this.currentOwner.id]);
   }
 
 }

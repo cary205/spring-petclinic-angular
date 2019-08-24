@@ -48,16 +48,16 @@
  * @author Vitaliy Fedoriv
  */
 
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 // Other imports
-import { TestBed } from '@angular/core/testing';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import {TestBed} from '@angular/core/testing';
+import {HttpClient} from '@angular/common/http';
 
-import { HttpErrorHandler } from '../error.service';
+import {HttpErrorHandler} from '../error.service';
 
 import {OwnerService} from './owner.service';
-import {Owner} from "./owner";
+import {Owner} from './owner';
+import {Type} from '@angular/core';
 
 describe('OnwerService', () => {
   let httpClient: HttpClient;
@@ -78,7 +78,7 @@ describe('OnwerService', () => {
     // Inject the http, test controller, and service-under-test
     // as they will be referenced by each test.
     httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpTestingController = TestBed.get<HttpTestingController>(HttpTestingController as Type<HttpTestingController>);
     ownerService = TestBed.get(OwnerService);
   });
 
@@ -108,7 +108,7 @@ describe('OnwerService', () => {
       );
 
       // OwnerService should have made one request to GET owners from expected URL
-      const req = httpTestingController.expectOne(ownerService.entity_url);
+      const req = httpTestingController.expectOne(ownerService.entityUrl);
       expect(req.request.method).toEqual('GET');
 
       // Respond with the mock owners

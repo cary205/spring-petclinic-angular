@@ -23,21 +23,20 @@
  */
 
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {DebugElement, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import {VisitListComponent} from './visit-list.component';
 import {FormsModule} from '@angular/forms';
 import {VisitService} from '../visit.service';
-import {Router, ActivatedRoute} from '@angular/router';
-import {RouterStub, ActivatedRouteStub} from '../../testing/router-stubs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRouteStub, RouterStub} from '../../testing/router-stubs';
 import {Visit} from '../visit';
 import {Pet} from '../../pets/pet';
-import Spy = jasmine.Spy;
 import {Observable, of} from 'rxjs';
+import Spy = jasmine.Spy;
 
 class VisitServiceStub {
-  deleteVisit(visit_id: string): Observable<number> {
+  deleteVisit(visitId: string): Observable<number> {
     return of();
   }
 }
@@ -49,7 +48,7 @@ describe('VisitListComponent', () => {
   let testVisits: Visit[];
   let testPet: Pet;
   let spy: Spy;
-  let response_status: number;
+  let responseStatus: number;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -92,11 +91,11 @@ describe('VisitListComponent', () => {
     }];
 
     visitService = fixture.debugElement.injector.get(VisitService);
-    response_status = 204; // success delete return NO_CONTENT
+    responseStatus = 204; // success delete return NO_CONTENT
     component.visits = testVisits;
 
     spy = spyOn(visitService, 'deleteVisit')
-      .and.returnValue(Observable.of(response_status));
+      .and.returnValue(of(responseStatus));
 
     fixture.detectChanges();
   });

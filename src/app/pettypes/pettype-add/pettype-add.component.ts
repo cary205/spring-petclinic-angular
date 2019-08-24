@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {PetType} from "../pettype";
-import {PetTypeService} from "../pettype.service";
+import {PetType} from '../pettype';
+import {PetTypeService} from '../pettype.service';
 
 @Component({
   selector: 'app-pettype-add',
@@ -10,23 +10,23 @@ import {PetTypeService} from "../pettype.service";
 export class PettypeAddComponent implements OnInit {
   pettype: PetType;
   errorMessage: string;
-  @Output() onNew = new EventEmitter<PetType>();
+  @Output() newPetType = new EventEmitter<PetType>();
 
   constructor(private pettypeService: PetTypeService) {
-    this.pettype = <PetType>{};
+    this.pettype = {} as PetType;
   }
 
   ngOnInit() {
   }
 
-  onSubmit(pettype: PetType){
+  onSubmit(pettype: PetType) {
     pettype.id = null;
     this.pettypeService.addPetType(pettype).subscribe(
-      new_pettype => {
-        this.pettype = new_pettype;
-        this.onNew.emit(this.pettype);
+      newPettype => {
+        this.pettype = newPettype;
+        this.newPetType.emit(this.pettype);
       },
-      error => this.errorMessage = <any>error
+      error => this.errorMessage = error as any
     );
   }
 

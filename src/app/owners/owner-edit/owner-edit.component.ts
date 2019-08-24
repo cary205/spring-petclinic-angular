@@ -24,7 +24,6 @@ import {Component, OnInit} from '@angular/core';
 import {OwnerService} from '../owner.service';
 import {Owner} from '../owner';
 import {ActivatedRoute, Router} from '@angular/router';
-import 'rxjs/Rx';
 
 @Component({
   selector: 'app-owner-edit',
@@ -36,29 +35,27 @@ export class OwnerEditComponent implements OnInit {
   errorMessage: string; // server error message
 
   constructor(private ownerService: OwnerService, private route: ActivatedRoute, private router: Router) {
-    this.owner = <Owner>{};
+    this.owner = {} as Owner;
   }
 
   ngOnInit() {
-    const ownerId = this.route.snapshot.params['id'];
+    const ownerId = this.route.snapshot.params.id;
     this.ownerService.getOwnerById(ownerId).subscribe(
       owner => this.owner = owner,
-      error => this.errorMessage = <any> error);
+      error => this.errorMessage = error as any);
   }
 
   onSubmit(owner: Owner) {
-    var that = this;
+    const that = this;
     this.ownerService.updateOwner(owner.id.toString(), owner).subscribe(
       res => this.gotoOwnerDetail(owner),
-      error => this.errorMessage = <any> error
-    )
+      error => this.errorMessage = error as any
+    );
   }
 
   gotoOwnerDetail(owner: Owner) {
     this.errorMessage = null;
     this.router.navigate(['/owners', owner.id]);
   }
-
-
 
 }

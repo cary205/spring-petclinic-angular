@@ -40,8 +40,8 @@
       </tr>
       </tbody>
     </table>
-    <div *ngIf="is_insert">
-      <app-specialty-add (onNew)="onNewSpecialty($event)">...</app-specialty-add>
+    <div *ngIf="isInsert">
+      <app-specialty-add (newSpeciality)="onNewSpecialty($event)">...</app-specialty-add>
     </div>
     <div>
       <button class="btn btn-default" (click)="gotoHome()">Home</button>

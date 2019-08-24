@@ -20,10 +20,10 @@
  * @author Antoine Rey
  */
 
-import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 
 /** Type of the handleError function returned by HttpErrorHandler.createHandleError */
 export type HandleError =
@@ -35,7 +35,7 @@ export class HttpErrorHandler {
 
   /** Create curried handleError function that already knows the service name */
   createHandleError = (serviceName = '') => <T>
-  (operation = 'operation', result = {} as T) => this.handleError(serviceName, operation, result);
+  (operation = 'operation', result = {} as T) => this.handleError(serviceName, operation, result)
 
   /**
    * Returns a function that handles Http operation failures.
@@ -43,7 +43,7 @@ export class HttpErrorHandler {
    * @param operation - name of the operation that failed
    * @param result - type of a valid result
    */
-  handleError<T> (serviceName = '', operation = 'operation', result = {} as T) {
+  handleError<T>(serviceName = '', operation = 'operation', result = {} as T) {
 
     return (error: HttpErrorResponse): Observable<T> => {
 
@@ -62,7 +62,7 @@ export class HttpErrorHandler {
       console.error(error);
       console.error(`${serviceName}::${operation} failed: ${message}`);
 
-      return Observable.throwError(message);
+      return throwError(message);
     };
 
   }
